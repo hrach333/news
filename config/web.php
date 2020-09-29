@@ -23,7 +23,10 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-            // ...
+                '/' => 'news/index',
+                'news/<id:\d+>' => 'news/index',
+                'rubric' => 'rubric/index',
+                'rubric/<id:\d+>' => 'rubric/index',
             ],
            ],
         'cache' => [
@@ -53,14 +56,7 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-            ],
-        ],
-        */
+
     ],
     'params' => $params,
 ];
