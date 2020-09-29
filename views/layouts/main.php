@@ -9,7 +9,8 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
-use app\widgets\NavRubric;
+
+
 
 AppAsset::register($this);
 ?>
@@ -24,9 +25,7 @@ AppAsset::register($this);
     <meta name="author" content="">
     <title><?= Html::encode($this->title) ?></title>
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-
-    <!-- JS, Popper.js, and jQuery -->
+    
 
     <!-- Custom styles for this template -->
     <?php $this->head() ?>
@@ -62,7 +61,7 @@ AppAsset::register($this);
                             Orders
                         </a>
                     </li>-->
-                        <?= NavRubric::widget(); ?>
+                        
                     </ul>
 
                     <!--<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
@@ -76,10 +75,7 @@ AppAsset::register($this);
             </nav>
 
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-                <?= Breadcrumbs::widget([
-                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                ]) ?>
-                <?= Alert::widget() ?>
+                
                 <?= $content ?>
             </main>
         </div>
@@ -88,11 +84,12 @@ AppAsset::register($this);
     <!-- Bootstrap core JavaScript
 ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-
+    
 
 
     <?php $this->endBody() ?>
     <script>
+    
         $.ajax({
             type: "post",
             url: "/rubric/1",
@@ -102,25 +99,35 @@ AppAsset::register($this);
                 var content = $(".content");
                 //console.log(json);
                 var n = 0;
+                var html = '';
+                html += '<table>';
+                html += '<tr><th>Загаловок</th><th>Описание</th></tr>';
                 for (var i = 0; i < json.length; i++) {
+                    
                             if(Array.isArray(json[i])){
                                 while(n < json[i].length){
-                                    content.append('<h2>' + json[i][n].title + '</h2><p>' + json[i][n].description + '</p>');
+                                    
+                                    html += '<tr><td><h3>' + json[i][n].title + '</h3></td><td><p>' + json[i][n].description + '</p></td></tr>';
+                                    
                                 n++;
                                 }
                                 
                                 
                             }else{
+                                content.append('<tr>');
                                 //console.log(json[i].title);
-                            content.append('<h2>' + json[i].title + '</h2><p>' + json[i].description + '</p>');
+                            html += '<tr><td><h3>' + json[i].title + '</h3></td><td><p>' + json[i].description + '</p></td></tr>';
+                            
                             }                  
                             
                             
                         }
+                html += '</table>';
+                content.html(html);
                 
-                //getNews(json, n);
             }
         })
+        
     </script>
 </body>
 

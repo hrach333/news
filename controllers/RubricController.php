@@ -10,13 +10,21 @@ use Yii;
 
 class RubricController extends \yii\web\Controller
 {
+    /*
+    Метод формирует массив для получение новостей, в том числе и дочерних,
+    если есть таковых.
+    */
     public function actionIndex($id)
     {
-        if (Yii::$app->request->isPost) {
+        if (Yii::$app->request->isPost) {//проверка на post запрос
             $csrf_param = Yii::$app->request->post('csrf_param');
-            $id = (int) $id;
-            $rubric = Rubric::findOne($id);
-            $news = $rubric->news;
+            $id = (int) $id;//пероброзуем пользовательское значение в числовое
+            $rubric = Rubric::findOne($id);//выборка рубрики по id
+            $news = $rubric->news; //получение новостей связоные с рубрикой
+            /**
+             * Проверка на существование дочерных элементов рубрики
+             * 
+             */
             if ($rubric->child == 0) {
                 $sql = 'SELECT * FROM rubric WHERE child=:id';
                 $rubricsChild = Rubric::findBySql($sql, ['id' => $rubric->id])->all();
@@ -28,11 +36,11 @@ class RubricController extends \yii\web\Controller
                 }
             }
             
-            return $this->asJson($news);
+            return $this->asJson($news); //Возврошаем jndtn в виде json
         } 
     }
     /**
-     * Возрощает многомерный массив для древовидного создание меню
+     * Возрощает многомерный массив для древовидного меню
      */
     public function actionGetAllRubric()
     {
